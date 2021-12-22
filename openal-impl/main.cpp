@@ -37,38 +37,18 @@ int main()
 
 	/* Ensure 'buffer' can hold 1024 sample frames when calling (4096
  * bytes for 16-bit stereo). */
-	std::vector<ALuint> data = SoundBuffer::get()->p_SoundEffectBuffers;
+	std::vector<float> data; // were rendering floats
+	data.resize(1024 * 2); // 1024 stereo sample frames
 	
-	ALCvoid* buffer = &data;
-
-	alcRenderSamplesSOFT(mysounddevice->p_ALCDevice, buffer, 1024);
+	alcRenderSamplesSOFT(mysounddevice->p_ALCDevice, data.data(), 1024);
 	std::cout << "got here2" << std::endl;
 	//ALCboolean isSupported = alcIsRenderFormatSupportedSOFT();
 	
-	//..1024 sample frames are now in 'buffer'..//
-
-	
-
-	//const ALCchar*_cdecl stringg;
-
-	//stringg = alcGetString(captureDevice, ALC_CAPTURE_DEVICE_SPECIFIER);
-
-	//alcCaptureStart(captureDevice);
-
-
 	mySpeaker.Play(sound1);
 	mySpeaker.Play(sound2);
 
-	/*alcCaptureStop(captureDevice);
-	alcCaptureCloseDevice(captureDevice);*/
-
 	
 	std::cout << "got here\n";
-	/*std::cout << stringg << std::endl;
-
-	ALCvoid* buff[44100];
-
-	alcCaptureSamples(captureDevice, buff, 44100);*/
 
 
 	return 0;
