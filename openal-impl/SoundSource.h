@@ -8,9 +8,10 @@ public:
 
 	void Play(const ALuint buffer_to_play);
 	void setPosition(ALfloat xpos, ALfloat ypos, ALfloat zpos);
+	ALuint p_Source;
 
 private:
-	ALuint p_Source;
+	
 	float p_Pitch = 1.f;
 	float p_Gain = 1.f;
 	float p_Position[3] = { 0,0,0 };

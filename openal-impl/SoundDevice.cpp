@@ -60,8 +60,6 @@ SoundDevice::SoundDevice()
 	printf("Opened \"%s\"\n", name);
 	if (!alcIsExtensionPresent(NULL, "ALC_SOFT_loopback"))
 		std::cout << "Loopback rendering not supported" << std::endl;
-	std::cout << "got here1" << std::endl;
-
 }
 
 SoundDevice::~SoundDevice()
