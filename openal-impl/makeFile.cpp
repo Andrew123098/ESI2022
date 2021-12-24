@@ -50,9 +50,9 @@ SNDFILE* makeFile::openWAV(const char* path) {
 	return outfile;
 }
 
-sf_count_t makeFile::writeWAV(SNDFILE* outfile, float* buffer, sf_count_t numItemsToWrite) {
+sf_count_t makeFile::writeWAV(SNDFILE* outfile, short* buffer, sf_count_t numItemsToWrite) {
 	// Call Write function
-	sf_count_t numItemsWritten = sf_write_float(outfile, buffer, numItemsToWrite);
+	sf_count_t numItemsWritten = sf_write_short(outfile, buffer, numItemsToWrite);
 	return numItemsWritten;
 }
 

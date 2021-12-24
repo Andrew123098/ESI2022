@@ -25,27 +25,27 @@ int main()
 
 	// Load sound effects
 	uint32_t /*ALuint*/ sound1 = SoundBuffer::get()->addSoundEffect("../res/spellsounds/cave3.ogg");
-	uint32_t /*ALuint*/ sound2 = SoundBuffer::get()->addSoundEffect("../res/spellsounds/magicfail.ogg");
+	uint32_t /*ALuint*/ sound2 = SoundBuffer::get()->addSoundEffect("../res/spellsounds/launch1.ogg");
 
 	// Set Up Source
 	SoundSource mySpeaker;
 
 	// Set source position relative to listener
-	mySpeaker.setPosition(0, 0, 0);
+	mySpeaker.setPosition(0, -10, 0);
 
 	/* Ensure 'buffer' can hold 1024 sample frames when calling (4096
  * bytes for 16-bit stereo). */ // -- sf_count_t is an __int64
 	const sf_count_t samplesPerChunk = 1024;
 	const sf_count_t channels = 2;
 	sf_count_t numItemsToWritePerChunk = samplesPerChunk * channels;
-	float samples[samplesPerChunk][channels]{}; // we're rendering floats
-	float* psamples = &samples[0][0]; // Pointer to pass by reference to create_file
+	short samples[samplesPerChunk][channels]{}; // we're rendering floats
+	short* psamples = &samples[0][0]; // Pointer to pass by reference to create_file
 
 	// Open the file to write to. ( Use \\ or / for all \ in path )
-	const char* path = "C:\\Users\\andre\\source\\repos\\openal-impl-vid1\\OutFiles\\test.wav";
+	const char* path = "C:\\Users\\andre\\source\\repos\\openal-impl-vid1\\OutFiles\\test4.wav";
 	SNDFILE* outfile = makeFile::openWAV(path);
 	
-	mySpeaker.Play(sound1); // Begin playing the sound effect
+	mySpeaker.Play(sound2); // Begin playing the sound effect
 
 	ALint state = AL_PLAYING; // Initialize state variable that follows sound device state to end loop.
 	int count = 1;
