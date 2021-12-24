@@ -32,3 +32,25 @@ void makeFile::create_file(const char* fname, int format, short* buffer, int buf
 	**	See : http://en.wikipedia.org/wiki/Resource_Acquisition_Is_Initialization
 	*/
 } /* create_file */
+
+SNDFILE* makeFile::openWAV(const char* path) {
+	SF_INFO sfinfo{};
+	sfinfo.channels = 2;
+	sfinfo.samplerate = 44100;
+	sfinfo.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
+	SndfileHandle file = SndfileHandle(path, SFM_WRITE, sfinfo.format, sfinfo.channels, sfinfo.samplerate);
+	SNDFILE* outfile = sf_open(path, SFM_WRITE, &sfinfo);
+
+	return outfile;
+}
+
+sf_count_t makeFile::writeWAV(SNDFILE* outfile, float* buffer, sf_count_t numItemsToWrite) {
+	sf_count_t numItemsWritten = sf_write_float(outfile, buffer, numItemsToWrite);
+	return numItemsWritten;
+}
+
+void makeFile::closeWAV(SNDFILE* outfile) {
+	sf_write_sync(outfile);
+	sf_close(outfile);
+}
+
