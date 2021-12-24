@@ -17,9 +17,9 @@ void makeFile::create_file(const char* fname, int format, short* buffer, int buf
 	// Create .wav file
 	file = SndfileHandle(fname, SFM_WRITE, format, channels, srate);
 	
-	// Copies the value of the second param to the first 3rd papram many characters of the object pointed to by the 1st param.
+	// Copies the value of the second param to the first 3rd-param-many characters of the object pointed to by the 1st param.
 	// Not sure what (if anything) this is actually doing. (See: https://github.com/libsndfile/libsndfile/blob/master/examples/sndfilehandle.cc)
-	memset(buffer, 0, sizeof(buffer));  
+	//memset(buffer, 0, sizeof(buffer));  
 
 	// Write the defined file to hard disk.
 	file.write(buffer, bufferSize);
