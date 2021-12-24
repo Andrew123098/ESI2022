@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <iostream>
 #include <sndfile.hh>
+#include <vector>
 
 //static LPALCLOOPBACKOPENDEVICESOFT alcLoopbackOpenDeviceSOFT;
 static LPALCRENDERSAMPLESSOFT alcRenderSamplesSOFT;
@@ -17,10 +18,6 @@ int main()
 	std::cout << "starting...\n";
 
 	/*alcLoopbackOpenDeviceSOFT = (LPALCLOOPBACKOPENDEVICESOFT)alcGetProcAddress(NULL, "alcLoopbackOpenDeviceSOFT");*/
-	
-
-	/*ALCcontext* context = alcCreateContext(loopbackDevice, attrs);
-	alcMakeContextCurrent(context);*/
 	
 	SoundDevice * mysounddevice = SoundDevice::get(); // Create Loopback Listener Device
 
@@ -39,32 +36,23 @@ int main()
 
 	/* Ensure 'buffer' can hold 1024 sample frames when calling (4096
  * bytes for 16-bit stereo). */
-	std::vector<float> samples; // were rendering floats
-	samples.resize(1024 * 2); // 1024 stereo sample frames
+	short samples[1024][2]{}; // we're rendering shorts
+	short* psamples = &samples[0][0]; // Pointer to pass by reference to create_file
 	
-	alcRenderSamplesSOFT(mysounddevice->p_ALCDevice, samples.data(), 1024);
-	std::cout << "got here1" << std::endl;
-	//ALCboolean isSupported = alcIsRenderFormatSupportedSOFT();
-	
-	mySpeaker.Play(sound1);
-	//mySpeaker.Play(sound2);
-	ALint state = AL_PLAYING;
-	std::cout << "playing sound\n";
+	mySpeaker.Play(sound2); // Begin playing the sound effect
+
+	ALint state = AL_PLAYING; // Initialize state variable that follows sound device state to end loop.
 	while (state == AL_PLAYING && alGetError() == AL_NO_ERROR)
 	{
-		std::cout << "currently playing sound\n";
-
-		alcRenderSamplesSOFT(mysounddevice->p_ALCDevice, samples.data(), 1024);
-		//... encode / write the 1024 more sample frames to disk here ...
-		makeFile::create_file("test.wav", SF_FORMAT_WAV | SF_FORMAT_PCM_16);
-
-			alGetSourcei(mySpeaker.p_Source, AL_SOURCE_STATE, &state);
+		// Record directional sound in 1024 audio sample chunks.
+		alcRenderSamplesSOFT(mysounddevice->p_ALCDevice, psamples, 1024); 
+		
+		// Encode .WAV file and write it to the harddrive in 16 bit PCM format.
+		makeFile::create_file("test.wav", SF_FORMAT_WAV | SF_FORMAT_PCM_16, psamples, sizeof(samples)/sizeof(short));
+		
+		// Check if sound is done playing.
+		alGetSourcei(mySpeaker.p_Source, AL_SOURCE_STATE, &state); 
 	}
-	
-	std::cout << "got here2" << std::endl;
-
-	/*for (float i : data)
-		std::cout << data.at(i) << ',';*/
 
 	return 0;
 }

@@ -1,23 +1,28 @@
 #include "makeFile.h"
 #include <sndfile.hh>
+#include <stdlib.h>
+#include <vector>
 
-#define		BUFFER_LEN		1024
+//constexpr auto BUFFER_LEN = 1024;
 
-static void create_file(const char* fname, int format)
+void makeFile::create_file(const char* fname, int format, short* buffer, int bufferSize)
 {
-	static short buffer[BUFFER_LEN];
-
+	//static short buffer[BUFFER_LEN];
 	SndfileHandle file;
 	int channels = 2;
 	int srate = 41000;
 
 	printf("Creating file named '%s'\n", fname);
 
+	// Create .wav file
 	file = SndfileHandle(fname, SFM_WRITE, format, channels, srate);
+	
+	// Copies the value of the second param to the first 3rd papram many characters of the object pointed to by the 1st param.
+	// Not sure what (if anything) this is actually doing. (See: https://github.com/libsndfile/libsndfile/blob/master/examples/sndfilehandle.cc)
+	memset(buffer, 0, sizeof(buffer));  
 
-	memset(buffer, 0, sizeof(buffer));
-
-	file.write(buffer, BUFFER_LEN);
+	// Write the defined file to hard disk.
+	file.write(buffer, bufferSize);
 
 	puts("");
 	/*
