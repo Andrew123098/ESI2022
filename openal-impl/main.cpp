@@ -6,7 +6,6 @@
 #include <AL/alc.h>
 #include <AL/alext.h>
 #include <stdlib.h>
-
 #include <sndfile.hh>
 
 
@@ -32,7 +31,7 @@ int main()
 	SoundSource mySpeaker;
 
 	// Set source position relative to listener
-	mySpeaker.setPosition(100, 0, 0);
+	mySpeaker.setPosition(0, 0, 0);
 
 	/* Ensure 'buffer' can hold 1024 sample frames when calling (4096
  * bytes for 16-bit stereo). */ // -- sf_count_t is an __int64
@@ -52,7 +51,6 @@ int main()
 	int count = 1;
 	while (state == AL_PLAYING && alGetError() == AL_NO_ERROR)
 	{
-		//printf("%i\n",count);
 		// Record directional sound in 1024 audio sample chunks.
 		alcRenderSamplesSOFT(mysounddevice->p_ALCDevice, psamples, 1024); 
 		
@@ -65,20 +63,6 @@ int main()
 	}
 
 	makeFile::closeWAV(outfile);
-
-	//std::cout << "While Loop Count: "<< count << " : Sizeof(samples): " << sizeof(samples) << std::endl;
-	//// Encode .WAV file and write it to the harddrive in 16 bit PCM format.
-	//makeFile::create_file("test.wav", SF_FORMAT_WAV | SF_FORMAT_PCM_16, psamples, sizeof(samples) / sizeof(short));
-
-	//int arrSize = sizeof(samples) / sizeof(samples[0][0]);
-	//std::cout << "The size of the array is: " << arrSize <<std::endl;
-
-	//std::ofstream myfile("test1.txt");
-	/*for (int i = 0; i < arrSize/2 - 1 ; i++) {
-		myfile << i << ":  " << samples[i][1] << ", " << samples[i][2] << "\n";
-	}*/
-
-	//myfile.close();
 
 	return 0;
 }

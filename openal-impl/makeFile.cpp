@@ -34,23 +34,33 @@ void makeFile::create_file(const char* fname, int format, short* buffer, int buf
 } /* create_file */
 
 SNDFILE* makeFile::openWAV(const char* path) {
+	// Define file metadata and format.
 	SF_INFO sfinfo{};
 	sfinfo.channels = 2;
 	sfinfo.samplerate = 44100;
 	sfinfo.format = SF_FORMAT_WAV | SF_FORMAT_PCM_16;
+
+	// Create file for writing.
 	SndfileHandle file = SndfileHandle(path, SFM_WRITE, sfinfo.format, sfinfo.channels, sfinfo.samplerate);
+	
+	// Open file for writing and create pointer to file location.
 	SNDFILE* outfile = sf_open(path, SFM_WRITE, &sfinfo);
 
+	// Return pointer to file location.
 	return outfile;
 }
 
 sf_count_t makeFile::writeWAV(SNDFILE* outfile, float* buffer, sf_count_t numItemsToWrite) {
+	// Call Write function
 	sf_count_t numItemsWritten = sf_write_float(outfile, buffer, numItemsToWrite);
 	return numItemsWritten;
 }
 
 void makeFile::closeWAV(SNDFILE* outfile) {
+	// Sync output buffers with open file.
 	sf_write_sync(outfile);
+	
+	// Close data stream.
 	sf_close(outfile);
 }
 
