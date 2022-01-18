@@ -30,6 +30,9 @@
     <ClCompile Include="makeFile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="fileList.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="SoundDevice.h">
@@ -42,6 +45,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="makeFile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="fileList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
