@@ -30,7 +30,7 @@ int main()
 	string inputPath = "C:\\Users\\andre\\source\\repos\\openal-impl-vid1\\res\\Minecraft Sound Pack 1.17 - Sound Effects";
 
 	// PATH TO DIRECTORY CONTAINING ALL BINAURAL DIRECTIOANL FILES
-	string outputPath = "C:\\Users\\andre\\OneDrive\\Documents\\ESI2022\\MLDatabases";
+	string outputPath = "C:\\Users\\andre\\OneDrive\\Documents\\ESI2022\\MLDatabases\\90";
 
 	// Get list of all sound effects in the directory.
 	vector<string> allFilePaths = fileList::listFilesInDir(inputPath);
@@ -53,8 +53,26 @@ int main()
 		// Set Up Source
 		SoundSource mySpeaker;
 
-		// Set source position relative to listener
-		mySpeaker.setPosition(10, 0, 0);
+		/* Set source position relative to listener:
+			OpenAL - like OpenGL - uses a right-handed Cartesian coordinate system (RHS), 
+			where in a frontal default view 
+			X (thumb) points right, 
+			Y (index finger) points up, and
+			Z (middle finger) points towards the viewer/camera. (+Z is behind you).
+		
+			Convert Polar Coordinate Input to RHS Cartesian
+		*/ 
+
+		// CHANGE RHO AND PHI TO CHANGE ANGLE AND ATTENUATION:
+		double phi = 90;  // Angle where Front = 0 degrees and Right = 90 degrees
+		double rho = 10; // Distance from Listener @ (0,0,0)
+		
+
+		double X = rho * cos(phi - 90.0);
+		double Y = 0;
+		double Z = rho * sin(phi - 90.0);
+
+		mySpeaker.setPosition(X, Y, Z);
 
 		/* Ensure 'buffer' can hold 1024 sample frames when calling (4096
 		 * bytes for 16-bit stereo). */ // -- sf_count_t is an __int64
